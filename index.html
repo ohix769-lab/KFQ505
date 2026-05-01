@@ -7,8 +7,8 @@
 <title>شجرة العائلة</title>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
- : root {
-    --gold: #c9a84c؛
+  :root {
+    --gold: #c9a84c;
     --gold-light: #e8d08a;
     --gold-dark: #8b6914;
     --bg-deep: #0d0a05;
@@ -18,313 +18,72 @@
     --text-muted: #a89060;
     --border: #3d2e0e;
   }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Cairo', sans-serif; background: var(--bg-deep); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(122,59,0,0.08) 0%, transparent 60%); pointer-events: none; z-index: 0; } 100%{background-position:-200% 0} } 50%{opacity:0.3} }
 
-- { margin: 0; padding: 0; box-sizing: border-box; }
+.header { text-align: center; padding: 36px 20px 16px; position: relative; z-index: 1; }
+.header-ornament { font-family: ‘Amiri’, serif; font-size: 1.1rem; color: var(–gold); letter-spacing: 6px; opacity: 0.7; margin-bottom: 6px; }
+.header h1 { font-family: ‘Amiri’, serif; font-size: clamp(2rem, 5vw, 3.2rem); color: var(–gold-light); text-shadow: 0 0 40px rgba(201,168,76,0.3); letter-spacing: 2px; margin-bottom: 4px; }
+.header-line { width: 160px; height: 1px; background: linear-gradient(90deg, transparent, var(–gold), transparent); margin: 8px auto; }
+.header p { color: var(–text-muted); font-size: 0.88rem; font-weight: 300; }
 
-الجسم. {
-عائلة الخط.: ‘Cairo’, sans-serif;
-الخلفية.: var(–bg-deep);
-اللون.: var(–text);
-مين الارتفاع.: 100vh;
-تجاوز-X.: hidden;
-}
-
-الجسم.::before {
-المحتوى.: ‘’;
-الموقف.: fixed;
-انسيت.: 0;
-الخلفية.:
-radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.06) 0%, transparent 60%),
-radial-gradient(ellipse at 80% 80%, rgba(122,59,0,0.08) 0%, transparent 60%);
-pointer-events: none;
-z-index: 0;
-}
-
-.header {
-text-align: center;
-padding: 36px 20px 16px;
-position: relative;
-z-index: 1;
-}
-
-.header-ornament {
-font-family: ‘Amiri’, serif;
-font-size: 1.1rem;
-color: var(–gold);
-letter-spacing: 6px;
-opacity: 0.7;
-margin-bottom: 6px;
-}
-
-.header h1 {
-font-family: ‘Amiri’, serif;
-font-size: clamp(2rem, 5vw, 3.2rem);
-color: var(–gold-light);
-text-shadow: 0 0 40px rgba(201,168,76,0.3);
-letter-spacing: 2px;
-margin-bottom: 4px;
-}
-
-.header-line {
-width: 160px;
-height: 1px;
-background: linear-gradient(90deg, transparent, var(–gold), transparent);
-margin: 8px auto;
-}
-
-.header p {
-color: var(–text-muted);
-font-size: 0.88rem;
-font-weight: 300;
-}
-
-.stats-bar {
-display: flex;
-gap: 24px;
-justify-content: center;
-flex-wrap: wrap;
-padding: 14px;
-background: rgba(201,168,76,0.04);
-border-top: 1px solid var(–border);
-border-bottom: 1px solid var(–border);
-margin: 16px 0;
-position: relative;
-z-index: 1;
-}
-
+.stats-bar { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; padding: 14px; background: rgba(201,168,76,0.04); border-top: 1px solid var(–border); border-bottom: 1px solid var(–border); margin: 16px 0; position: relative; z-index: 1; }
 .stat { text-align: center; }
 .stat-num { font-size: 1.4rem; font-weight: 700; color: var(–gold); font-family: ‘Amiri’, serif; }
 .stat-label { font-size: 0.73rem; color: var(–text-muted); }
 
-.controls {
-display: flex;
-gap: 10px;
-justify-content: center;
-flex-wrap: wrap;
-padding: 0 20px 18px;
-position: relative;
-z-index: 1;
-}
-
-.btn {
-font-family: ‘Cairo’, sans-serif;
-padding: 9px 20px;
-border-radius: 5px;
-border: 1px solid var(–gold-dark);
-background: rgba(201,168,76,0.1);
-color: var(–gold-light);
-cursor: pointer;
-font-size: 0.86rem;
-font-weight: 600;
-transition: all 0.22s;
-}
-
-.btn:hover {
-background: rgba(201,168,76,0.22);
-border-color: var(–gold);
-box-shadow: 0 0 14px rgba(201,168,76,0.15);
-}
-
-.btn.primary {
-background: linear-gradient(135deg, #c9a84c, #8b6914);
-border-color: var(–gold);
-color: #1a1000;
-font-weight: 700;
-}
-
-.btn.primary:hover {
-box-shadow: 0 0 22px rgba(201,168,76,0.35);
-transform: translateY(-1px);
-}
-
-.btn.danger {
-background: rgba(180,40,40,0.15);
-border-color: #7a2020;
-color: #e88;
-}
-
+.controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; padding: 0 20px 18px; position: relative; z-index: 1; }
+.btn { font-family: ‘Cairo’, sans-serif; padding: 9px 20px; border-radius: 5px; border: 1px solid var(–gold-dark); background: rgba(201,168,76,0.1); color: var(–gold-light); cursor: pointer; font-size: 0.86rem; font-weight: 600; transition: all 0.22s; }
+.btn:hover { background: rgba(201,168,76,0.22); border-color: var(–gold); box-shadow: 0 0 14px rgba(201,168,76,0.15); }
+.btn.primary { background: linear-gradient(135deg, #c9a84c, #8b6914); border-color: var(–gold); color: #1a1000; font-weight: 700; }
+.btn.primary:hover { box-shadow: 0 0 22px rgba(201,168,76,0.35); transform: translateY(-1px); }
+.btn.danger { background: rgba(180,40,40,0.15); border-color: #7a2020; color: #e88; }
 .btn.danger:hover { background: rgba(180,40,40,0.3); }
 
-.view-toggle {
-display: flex;
-background: rgba(255,255,255,0.04);
-border: 1px solid var(–border);
-border-radius: 5px;
-overflow: hidden;
-}
+.view-toggle { display: flex; background: rgba(255,255,255,0.04); border: 1px solid var(–border); border-radius: 5px; overflow: hidden; }
+.view-toggle button { font-family: ‘Cairo’, sans-serif; padding: 8px 14px; border: none; background: transparent; color: var(–text-muted); cursor: pointer; font-size: 0.83rem; transition: all 0.2s; }
+.view-toggle button.active { background: rgba(201,168,76,0.2); color: var(–gold-light); }
 
-.view-toggle button {
-font-family: ‘Cairo’, sans-serif;
-padding: 8px 14px;
-border: none;
-background: transparent;
-color: var(–text-muted);
-cursor: pointer;
-font-size: 0.83rem;
-transition: all 0.2s;
-}
-
-.view-toggle button.active {
-background: rgba(201,168,76,0.2);
-color: var(–gold-light);
-}
-
-/* Tree */
-.tree-wrapper {
-position: relative;
-z-index: 1;
-padding: 10px 20px 20px;
-overflow: auto;
-}
-
+.tree-wrapper { position: relative; z-index: 1; padding: 10px 20px 20px; overflow: auto; }
 #tree-svg { display: block; }
-
-.empty-state {
-text-align: center;
-padding: 70px 20px;
-color: var(–text-muted);
-}
-
+.empty-state { text-align: center; padding: 70px 20px; color: var(–text-muted); }
 .empty-state .icon { font-size: 4rem; margin-bottom: 14px; opacity: 0.35; }
 .empty-state p { font-size: 1rem; }
-
 .connector { fill: none; stroke: #5a3d0a; stroke-width: 1.5; opacity: 0.7; }
 .node-group { cursor: pointer; }
 .node-name { font-family: ‘Cairo’, sans-serif; font-size: 12.5px; font-weight: 700; fill: #f0e6c8; text-anchor: middle; dominant-baseline: middle; }
 .node-sub  { font-family: ‘Cairo’, sans-serif; font-size: 9.5px; fill: #a89060; text-anchor: middle; dominant-baseline: middle; }
 
-/* List */
 #list-view { display: none; padding: 10px 20px 30px; position: relative; z-index: 1; }
-
-.member-list {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-gap: 12px;
-max-width: 1000px;
-margin: auto;
-}
-
-.member-card {
-background: var(–bg-card);
-border: 1px solid var(–border);
-border-radius: 10px;
-padding: 14px;
-cursor: pointer;
-transition: all 0.22s;
-}
-
-.member-card:hover {
-border-color: var(–gold-dark);
-background: var(–bg-hover);
-transform: translateY(-2px);
-box-shadow: 0 8px 22px rgba(0,0,0,0.3);
-}
-
+.member-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; max-width: 1000px; margin: auto; }
+.member-card { background: var(–bg-card); border: 1px solid var(–border); border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.22s; }
+.member-card:hover { border-color: var(–gold-dark); background: var(–bg-hover); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,0.3); }
 .member-card-icon { font-size: 1.7rem; margin-bottom: 6px; }
 .member-card-name { font-weight: 700; font-size: 0.95rem; color: var(–gold-light); }
 .member-card-role { font-size: 0.78rem; color: var(–text-muted); margin-top: 2px; }
 
-/* Modal */
-.modal-overlay {
-display: none;
-position: fixed;
-inset: 0;
-background: rgba(0,0,0,0.78);
-z-index: 200;
-align-items: center;
-justify-content: center;
-backdrop-filter: blur(4px);
-}
-
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.78); z-index: 200; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
 .modal-overlay.open { display: flex; }
-
-.modal {
-background: var(–bg-card);
-border: 1px solid var(–gold-dark);
-border-radius: 12px;
-width: min(470px, 93vw);
-padding: 30px;
-position: relative;
-box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-animation: slideUp 0.28s ease;
-}
-
+.modal { background: var(–bg-card); border: 1px solid var(–gold-dark); border-radius: 12px; width: min(470px, 93vw); padding: 30px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.6); animation: slideUp 0.28s ease; }
 @keyframes slideUp { from { transform: translateY(28px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-.modal-close {
-position: absolute;
-top: 12px;
-left: 14px;
-background: none;
-border: none;
-color: var(–text-muted);
-font-size: 1.2rem;
-cursor: pointer;
-padding: 4px 8px;
-border-radius: 4px;
-transition: color 0.2s;
-}
-
+.modal-close { position: absolute; top: 12px; left: 14px; background: none; border: none; color: var(–text-muted); font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: color 0.2s; }
 .modal-close:hover { color: var(–gold); }
-
-.modal h2 {
-font-family: ‘Amiri’, serif;
-font-size: 1.55rem;
-color: var(–gold-light);
-margin-bottom: 3px;
-text-align: center;
-}
-
+.modal h2 { font-family: ‘Amiri’, serif; font-size: 1.55rem; color: var(–gold-light); margin-bottom: 3px; text-align: center; }
 .modal-sub { text-align: center; color: var(–text-muted); font-size: 0.83rem; margin-bottom: 18px; }
-
 .divider { height: 1px; background: linear-gradient(90deg, transparent, var(–gold-dark), transparent); margin: 14px 0; }
-
 .form-group { margin-bottom: 12px; }
 .form-group label { display: block; font-size: 0.8rem; color: var(–text-muted); margin-bottom: 5px; font-weight: 600; }
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-width: 100%;
-background: rgba(255,255,255,0.04);
-border: 1px solid var(–border);
-border-radius: 6px;
-padding: 9px 13px;
-color: var(–text);
-font-family: ‘Cairo’, sans-serif;
-font-size: 0.88rem;
-transition: border-color 0.2s;
-direction: rtl;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-outline: none;
-border-color: var(–gold-dark);
-background: rgba(201,168,76,0.04);
-}
-
+.form-group input, .form-group select { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(–border); border-radius: 6px; padding: 9px 13px; color: var(–text); font-family: ‘Cairo’, sans-serif; font-size: 0.88rem; transition: border-color 0.2s; direction: rtl; }
+.form-group input:focus, .form-group select:focus { outline: none; border-color: var(–gold-dark); background: rgba(201,168,76,0.04); }
 .form-group select option { background: #1a1308; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
 .modal-actions { display: flex; gap: 9px; margin-top: 18px; }
 .modal-actions .btn { flex: 1; text-align: center; }
-
 .detail-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 9px; }
 .detail-label { color: var(–text-muted); font-size: 0.8rem; min-width: 88px; font-weight: 600; }
 .detail-value { color: var(–text); font-size: 0.88rem; }
-
-.legend {
-display: flex;
-gap: 18px;
-justify-content: center;
-flex-wrap: wrap;
-padding: 8px 20px 28px;
-position: relative;
-z-index: 1;
-}
-
+.legend { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; padding: 8px 20px 60px; position: relative; z-index: 1; }
 .legend-item { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; color: var(–text-muted); }
 .legend-dot { width: 13px; height: 13px; border-radius: 3px; }
 </style>
@@ -332,47 +91,61 @@ z-index: 1;
 </head>
 <body>
 
-<div class="header">
-  <div class="header-ornament">❧ ❧ ❧</div>
-  <h1>شجرة العائلة</h1>
-  <div class="header-line"></div>
-  <p>سِجِلُّ الأُسرة وذاكرتها</p>
+```
+<div class="setup-fields">
+  <label>رابط Firebase Database URL</label>
+  <input type="text" id="fb-url" placeholder="https://your-project-default-rtdb.firebaseio.com" dir="ltr">
+  <button class="btn primary" style="width:100%;margin-top:6px" onclick="connectFirebase()">🔗 ربط وبدء الاستخدام</button>
 </div>
-
-<div class="stats-bar">
-  <div class="stat"><div class="stat-num" id="stat-total">0</div><div class="stat-label">إجمالي الأفراد</div></div>
-  <div class="stat"><div class="stat-num" id="stat-gen">0</div><div class="stat-label">الأجيال</div></div>
-  <div class="stat"><div class="stat-num" id="stat-male">0</div><div class="stat-label">ذكور</div></div>
+<div class="setup-note">
+  ✅ مجاني تماماً · البيانات تظهر لكل من يفتح الرابط
 </div>
+```
 
-<div class="controls">
-  <button class="btn primary" onclick="openAddModal()">＋ إضافة فرد</button>
-  <div class="view-toggle">
-    <button class="active" onclick="setView('tree',this)">🌳 شجرة</button>
-    <button onclick="setView('list',this)">☰ قائمة</button>
   </div>
-  <button class="btn" onclick="exportData()">⬇ تصدير</button>
-  <button class="btn" onclick="document.getElementById('imp').click()">⬆ استيراد</button>
 </div>
 
-<div id="tree-view">
-  <div class="tree-wrapper" id="tw">
-    <div class="empty-state" id="empty-state">
-      <div class="icon">🌳</div>
-      <p>لا يوجد أفراد بعد<br><small style="font-size:0.82rem;opacity:0.7">ابدأ بإضافة جد العائلة</small></p>
+<div id="app">
+  <div class="header">
+    <div class="header-ornament">❧ ❧ ❧</div>
+    <h1>شجرة العائلة</h1>
+    <div class="header-line"></div>
+    <p>سِجِلُّ الأُسرة وذاكرتها</p>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num" id="stat-total">0</div><div class="stat-label">إجمالي الأفراد</div></div>
+    <div class="stat"><div class="stat-num" id="stat-gen">0</div><div class="stat-label">الأجيال</div></div>
+    <div class="stat"><div class="stat-num" id="stat-male">0</div><div class="stat-label">ذكور</div></div>
+  </div>
+
+  <div class="controls">
+    <div class="view-toggle">
+      <button class="active" onclick="setView('tree',this)">🌳 شجرة</button>
+      <button onclick="setView('list',this)">☰ قائمة</button>
     </div>
-    <svg id="tree-svg" width="0" height="0"></svg>
   </div>
-</div>
 
-<div id="list-view">
-  <div class="member-list" id="member-list"></div>
-</div>
+  <div id="tree-view">
+    <div class="tree-wrapper">
+      <div class="empty-state" id="empty-state">
+        <div class="icon">🌳</div>
+        <p>لا يوجد أفراد بعد<br><small style="font-size:0.82rem;opacity:0.7">ابدأ بإضافة جد العائلة</small></p>
+        <button class="btn primary" style="margin-top:16px" onclick="openAddModal()">＋ إضافة جد العائلة</button>
+      </div>
+      <svg id="tree-svg" width="0" height="0"></svg>
+    </div>
+  </div>
 
-<div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#1e3a2a;border:1px solid #2d6a46"></div> جد / أصل</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#1a2a3e;border:1px solid #2a4a7a"></div> ذكر</div>
+  <div id="list-view">
+    <div class="member-list" id="member-list"></div>
+  </div>
 
+  <p style="text-align:center;color:var(--text-muted);font-size:0.8rem;padding:0 20px 10px;position:relative;z-index:1">💡 اضغط على أي شخص لإضافة ابن له · اضغط ℹ للتفاصيل والتعديل</p>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#1e3a2a;border:1px solid #2d6a46"></div> جد / أصل</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1a2a3e;border:1px solid #2a4a7a"></div> فرد</div>
+  </div>
 </div>
 
 <!-- Add/Edit Modal -->
@@ -387,19 +160,9 @@ z-index: 1;
       <label>الاسم الكامل *</label>
       <input type="text" id="f-name" placeholder="اسم الفرد">
     </div>
-    <div class="form-group">
+    <div class="form-group" id="parent-group">
       <label>الوالد / مرتبط بـ</label>
       <select id="f-parent"><option value="">— جذر الشجرة —</option></select>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>المهنة</label>
-        <input type="text" id="f-job" placeholder="المهنة">
-      </div>
-      <div class="form-group">
-        <label>المدينة</label>
-        <input type="text" id="f-city" placeholder="المدينة">
-      </div>
     </div>
     <div class="modal-actions">
       <button class="btn primary" onclick="savePerson()">💾 حفظ</button>
@@ -419,17 +182,15 @@ z-index: 1;
     <div class="divider"></div>
     <div id="d-body"></div>
     <div class="modal-actions" style="margin-top:14px">
-      <button class="btn primary" id="d-edit">✏ تعديل</button>
+      <button class="btn primary" id="d-add-son">＋ إضافة ابن</button>
+      <button class="btn" id="d-edit">✏ تعديل</button>
       <button class="btn" onclick="closeDetail()">إغلاق</button>
     </div>
   </div>
 </div>
 
-<input type="file" id="imp" accept=".json" style="display:none" onchange="handleImport(event)">
-
 <script>
 const NODE_W = 138, NODE_H = 68, H_GAP = 28, V_GAP = 76;
-
 let people = JSON.parse(localStorage.getItem('ft') || '[]');
 let editingId = null;
 
@@ -439,23 +200,20 @@ const byId  = id => people.find(p => p.id === id);
 const kids  = id => people.filter(p => p.parentId === id);
 const ico   = () => '👨';
 
+// ── Layout ────────────────────────────────────────────────────────────────────
 function getGen(p) {
   let g = 0, c = p;
   while (c && c.parentId) { g++; c = byId(c.parentId) || null; }
   return g;
 }
-
-// ── Subtree width layout ──────────────────────────────────────────────────────
 function calcWidth(id) {
   const ch = kids(id);
   if (!ch.length) return NODE_W + H_GAP;
   return ch.reduce((s, k) => s + calcWidth(k.id), 0);
 }
-
 function assignX(id, startX) {
   const w = calcWidth(id);
-  const node = byId(id);
-  node._x = startX + w / 2 - NODE_W / 2;
+  byId(id)._x = startX + w / 2 - NODE_W / 2;
   let cx = startX;
   kids(id).forEach(k => { assignX(k.id, cx); cx += calcWidth(k.id); });
 }
@@ -464,70 +222,49 @@ function assignX(id, startX) {
 function renderTree() {
   const svg = document.getElementById('tree-svg');
   const empty = document.getElementById('empty-state');
-  updateStats();
-  renderList();
-
+  updateStats(); renderList();
   if (!people.length) {
     empty.style.display = 'block';
     svg.setAttribute('width', 0); svg.setAttribute('height', 0);
     svg.innerHTML = ''; return;
   }
   empty.style.display = 'none';
-
-  // Assign positions
   const roots = people.filter(p => !p.parentId);
   let cx = 16;
   roots.forEach(r => { assignX(r.id, cx); cx += calcWidth(r.id) + 30; });
-
   const allX = people.map(p => (p._x || 0) + NODE_W);
   const maxGen = Math.max(...people.map(p => getGen(p)));
   const W = Math.max(Math.max(...allX) + 30, 400);
   const H = (maxGen + 1) * (NODE_H + V_GAP) + 40;
-
-  svg.setAttribute('width', W);
-  svg.setAttribute('height', H);
-
-  let html = '<defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
-
-  // Connectors
+  svg.setAttribute('width', W); svg.setAttribute('height', H);
+  let html = '';
   people.forEach(node => {
     if (!node.parentId) return;
-    const par = byId(node.parentId);
-    if (!par) return;
+    const par = byId(node.parentId); if (!par) return;
     const g = getGen(node), pg = getGen(par);
-    const px = (par._x || 0) + NODE_W / 2;
-    const py = pg * (NODE_H + V_GAP) + 16 + NODE_H;
-    const nx = (node._x || 0) + NODE_W / 2;
-    const ny = g * (NODE_H + V_GAP) + 16;
-    const my = py + (ny - py) * 0.5;
+    const px = (par._x||0)+NODE_W/2, py = pg*(NODE_H+V_GAP)+16+NODE_H;
+    const nx = (node._x||0)+NODE_W/2, ny = g*(NODE_H+V_GAP)+16;
+    const my = py+(ny-py)*0.5;
     html += `<path class="connector" d="M${px},${py} C${px},${my} ${nx},${my} ${nx},${ny}"/>`;
   });
-
-  // Nodes
   people.forEach(node => {
-    const x = node._x || 0;
-    const g = getGen(node);
-    const y = g * (NODE_H + V_GAP) + 16;
+    const x = node._x||0, g = getGen(node), y = g*(NODE_H+V_GAP)+16;
     const isRoot = !node.parentId;
-    const fill   = isRoot ? '#1e3a2a' : '#1a2a3e';
-    const stroke = isRoot ? '#2d6a46' : '#2a4a7a';
-    const lbl = node.name.length > 13 ? node.name.slice(0,12) + '…' : node.name;
-    const sub = (node.job || (isRoot ? 'جد العائلة' : '')).slice(0, 18);
-
-    html += `<g class="node-group" onclick="showDetail('${node.id}')">
-      <rect x="${x}" y="${y}" width="${NODE_W}" height="${NODE_H}" rx="10" ry="10"
-        fill="${fill}" stroke="${stroke}" stroke-width="1.5"
-        style="filter:drop-shadow(0 4px 12px rgba(0,0,0,0.55))"/>
-      <text x="${x + NODE_W/2}" y="${y + 21}" font-size="19" text-anchor="middle" dominant-baseline="middle">${ico()}</text>
-      <text class="node-name" x="${x + NODE_W/2}" y="${y + 43}">${lbl}</text>
-      ${sub ? `<text class="node-sub" x="${x + NODE_W/2}" y="${y + 57}">${sub}</text>` : ''}
+    const fill = isRoot?'#1e3a2a':'#1a2a3e', stroke = isRoot?'#2d6a46':'#2a4a7a';
+    const lbl = node.name.length>13?node.name.slice(0,12)+'…':node.name;
+    const sub = isRoot?'جد العائلة':'';
+    html += `<g class="node-group">
+      <rect x="${x}" y="${y}" width="${NODE_W}" height="${NODE_H}" rx="10" ry="10" fill="${fill}" stroke="${stroke}" stroke-width="1.5" style="filter:drop-shadow(0 4px 12px rgba(0,0,0,0.55))" onclick="openAddSonModal('${node.id}')"/>
+      <text x="${x+NODE_W/2-8}" y="${y+21}" font-size="19" text-anchor="middle" dominant-baseline="middle" onclick="openAddSonModal('${node.id}')" style="cursor:pointer">${ico()}</text>
+      <text class="node-name" x="${x+NODE_W/2-8}" y="${y+43}" onclick="openAddSonModal('${node.id}')" style="cursor:pointer">${lbl}</text>
+      ${sub?`<text class="node-sub" x="${x+NODE_W/2-8}" y="${y+57}" onclick="openAddSonModal('${node.id}')" style="cursor:pointer">${sub}</text>`:''}
+      <circle cx="${x+NODE_W-10}" cy="${y+10}" r="9" fill="rgba(201,168,76,0.25)" stroke="#c9a84c" stroke-width="1" onclick="showDetail('${node.id}')" style="cursor:pointer"/>
+      <text x="${x+NODE_W-10}" y="${y+10}" font-size="9" font-weight="bold" fill="#e8d08a" text-anchor="middle" dominant-baseline="middle" onclick="showDetail('${node.id}')" style="cursor:pointer">ℹ</text>
     </g>`;
   });
-
   svg.innerHTML = html;
 }
 
-// ── Stats ─────────────────────────────────────────────────────────────────────
 function updateStats() {
   document.getElementById('stat-total').textContent = people.length;
   const gens = new Set(people.map(p => getGen(p)));
@@ -535,7 +272,6 @@ function updateStats() {
   document.getElementById('stat-male').textContent = people.length;
 }
 
-// ── List view ────────────────────────────────────────────────────────────────
 function renderList() {
   const el = document.getElementById('member-list');
   if (!people.length) { el.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:50px;grid-column:1/-1">لا يوجد أفراد</p>'; return; }
@@ -544,7 +280,7 @@ function renderList() {
     return `<div class="member-card" onclick="showDetail('${p.id}')">
       <div class="member-card-icon">${ico()}</div>
       <div class="member-card-name">${p.name}</div>
-      <div class="member-card-role">${p.job || (!p.parentId ? 'جد العائلة' : '')}${par ? ' · ابن ' + par.name : ''}</div>
+      <div class="member-card-role">${!p.parentId?'جد العائلة':''}${par?' · ابن '+par.name:''}</div>
     </div>`;
   }).join('');
 }
@@ -552,8 +288,8 @@ function renderList() {
 function setView(v, btn) {
   document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('tree-view').style.display = v === 'tree' ? '' : 'none';
-  document.getElementById('list-view').style.display = v === 'list' ? '' : 'none';
+  document.getElementById('tree-view').style.display = v==='tree'?'':'none';
+  document.getElementById('list-view').style.display = v==='list'?'':'none';
 }
 
 // ── Add/Edit ──────────────────────────────────────────────────────────────────
@@ -565,27 +301,40 @@ function fillParentSelect(excludeId) {
   });
 }
 
+function openAddSonModal(parentId) {
+  editingId = null;
+  document.getElementById('modal-title').textContent = '＋ إضافة ابن';
+  const par = byId(parentId);
+  document.getElementById('modal-sub').textContent = 'إضافة ابن لـ: ' + (par ? par.name : '');
+  document.getElementById('del-btn').style.display = 'none';
+  document.getElementById('f-name').value = '';
+  document.getElementById('parent-group').style.display = 'none';
+  fillParentSelect(null);
+  document.getElementById('f-parent').value = parentId || '';
+  document.getElementById('modal').classList.add('open');
+}
+
 function openAddModal() {
   editingId = null;
-  document.getElementById('modal-title').textContent = 'إضافة فرد جديد';
-  document.getElementById('modal-sub').textContent = 'أدخل بيانات الفرد الجديد';
+  document.getElementById('modal-title').textContent = 'إضافة جد العائلة';
+  document.getElementById('modal-sub').textContent = 'أدخل اسم الجد';
   document.getElementById('del-btn').style.display = 'none';
-  ['f-name','f-job','f-city'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-name').value = '';
+  document.getElementById('parent-group').style.display = 'none';
   fillParentSelect(null);
+  document.getElementById('f-parent').value = '';
   document.getElementById('modal').classList.add('open');
 }
 
 function openEditModal(id) {
-  const p = byId(id);
-  editingId = id;
+  const p = byId(id); editingId = id;
   document.getElementById('modal-title').textContent = 'تعديل البيانات';
   document.getElementById('modal-sub').textContent = p.name;
   document.getElementById('del-btn').style.display = '';
   document.getElementById('f-name').value = p.name;
-  document.getElementById('f-job').value = p.job || '';
-  document.getElementById('f-city').value = p.city || '';
+  document.getElementById('parent-group').style.display = '';
   fillParentSelect(id);
-  document.getElementById('f-parent').value = p.parentId || '';
+  document.getElementById('f-parent').value = p.parentId||'';
   closeDetail();
   document.getElementById('modal').classList.add('open');
 }
@@ -596,10 +345,7 @@ function savePerson() {
   const name = document.getElementById('f-name').value.trim();
   if (!name) { alert('يرجى إدخال الاسم'); return; }
   const data = {
-    name,
-    gender: 'male',
-    job: document.getElementById('f-job').value.trim(),
-    city: document.getElementById('f-city').value.trim(),
+    name, gender: 'male',
     parentId: document.getElementById('f-parent').value || null
   };
   if (editingId) { Object.assign(byId(editingId), data); }
@@ -617,51 +363,24 @@ function deletePerson() {
 
 // ── Detail ────────────────────────────────────────────────────────────────────
 function showDetail(id) {
-  const p = byId(id);
-  if (!p) return;
+  const p = byId(id); if (!p) return;
   const par = p.parentId ? byId(p.parentId) : null;
   const ch = kids(id);
-  document.getElementById('d-name').textContent = ico() + ' ' + p.name;
-  document.getElementById('d-role').textContent = p.job || (!p.parentId ? '★ جد العائلة' : '');
+  document.getElementById('d-name').textContent = ico()+' '+p.name;
+  document.getElementById('d-role').textContent = !p.parentId?'★ جد العائلة':'';
   const rows = [
-    par ? ['الوالد', ico() + ' ' + par.name] : null,
-    p.city ? ['المدينة', '📍 ' + p.city] : null,
-    ch.length ? ['الأبناء', ch.map(k => ico() + ' ' + k.name).join('، ')] : null,
+    par?['الوالد', ico()+' '+par.name]:null,
+    ch.length?['الأبناء', ch.map(k=>ico()+' '+k.name).join('، ')]:null,
   ].filter(Boolean);
-  document.getElementById('d-body').innerHTML = rows.map(([l, v]) => `
-    <div class="detail-row">
-      <span class="detail-label">${l}</span>
-      <span class="detail-value">${v}</span>
-    </div><div class="divider"></div>`).join('');
+  document.getElementById('d-body').innerHTML = rows.map(([l,v])=>`
+    <div class="detail-row"><span class="detail-label">${l}</span><span class="detail-value">${v}</span></div><div class="divider"></div>`).join('');
   document.getElementById('d-edit').onclick = () => openEditModal(id);
+  document.getElementById('d-add-son').onclick = () => { closeDetail(); openAddSonModal(id); };
   document.getElementById('detail-modal').classList.add('open');
 }
 
 function closeDetail() { document.getElementById('detail-modal').classList.remove('open'); }
 
-// ── Export / Import ───────────────────────────────────────────────────────────
-function exportData() {
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([JSON.stringify(people, null, 2)], { type: 'application/json' }));
-  a.download = 'family-tree.json'; a.click();
-}
-
-function handleImport(e) {
-  const f = e.target.files[0]; if (!f) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    try {
-      const d = JSON.parse(ev.target.result);
-      if (!Array.isArray(d)) throw 0;
-      if (!confirm(`استيراد ${d.length} فرد؟ سيتم استبدال البيانات الحالية.`)) return;
-      people = d; save(); renderTree();
-    } catch { alert('ملف غير صالح'); }
-  };
-  r.readAsText(f);
-  e.target.value = '';
-}
-
-// Close on overlay click
 ['modal','detail-modal'].forEach(id => {
   document.getElementById(id).addEventListener('click', e => {
     if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
