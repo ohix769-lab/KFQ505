@@ -1,304 +1,243 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>شجرة العائلة - النسخة الاحترافية المثالية</title>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --gold: #c9a84c;
-    --gold-dark: #8b6914;
-    --bg-deep: #0a0a0a;
-    --bg-card: #1a1510;
-    --text: #f0e6c8;
-    --border: #3d2e0e;
-  }
+    <meta charset="UTF-8">
+    <title>شجرة العائلة - النسخة المستقرة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cairo:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --bg: #0d0a05;
+            --card: #1a1308;
+            --text: #f0e6c8;
+        }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* تنسيق الصفحة العام */
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
 
-  body {
-    font-family: 'Cairo', sans-serif;
-    background: var(--bg-deep);
-    color: var(--text);
-    height: 100vh;
-    overflow: hidden; /* نعتمد على تحريك الشجرة بالداخل */
-  }
+        /* شريط الأدوات ثابت في الأعلى */
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--card);
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            border-bottom: 2px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
 
-  /* طبقة الواجهة (Buttons & Stats) */
-  .overlay-ui {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; /* تسمح بالتحريك من خلالها */
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+        .btn {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid var(--gold);
+            background: transparent;
+            color: var(--gold);
+            font-weight: bold;
+            font-family: inherit;
+        }
 
-  .ui-top {
-    pointer-events: auto; /* استعادة الضغط للأزرار */
-    background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
-    padding: 20px;
-    text-align: center;
-  }
+        .btn:hover { background: var(--gold); color: black; }
+        .btn-primary { background: var(--gold); color: black; }
 
-  .ui-bottom {
-    pointer-events: auto;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
+        /* منطقة الشجرة مع سكرول حقيقي */
+        .tree-viewport {
+            width: 100%;
+            overflow: auto; /* هذا يسمح بالتحريك يميناً ويساراً وبكل اتجاه */
+            padding: 50px;
+            display: block;
+        }
 
-  h1 { font-family: 'Amiri', serif; font-size: 2.2rem; color: var(--gold); margin-bottom: 10px; }
+        #tree-svg {
+            display: block;
+            margin: 0 auto;
+        }
 
-  .btn {
-    padding: 10px 20px; border-radius: 8px; border: 1px solid var(--gold-dark);
-    background: var(--bg-card); color: var(--gold);
-    cursor: pointer; font-weight: 600; font-family: inherit; transition: 0.3s;
-    pointer-events: auto;
-  }
-  .btn:hover { background: var(--gold); color: #000; }
-  .btn.primary { background: var(--gold-dark); color: #fff; }
+        /* تصميم العقد والروابط */
+        .node-rect { fill: var(--card); stroke: var(--gold); stroke-width: 2; cursor: pointer; }
+        .node-text { fill: var(--text); font-size: 14px; font-weight: bold; text-anchor: middle; pointer-events: none; }
+        .link { fill: none; stroke: var(--gold); stroke-width: 2; opacity: 0.4; }
 
-  /* منطقة الشجرة (Canvas) */
-  .viewport {
-    width: 100vw; height: 100vh;
-    cursor: grab;
-    background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-  .viewport:active { cursor: grabbing; }
+        /* النافذة المنبثقة */
+        .modal-bg {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+            display: none; align-items: center; justify-content: center; z-index: 2000;
+        }
+        .modal {
+            background: var(--card); border: 1px solid var(--gold);
+            padding: 30px; border-radius: 10px; width: 350px;
+        }
+        .modal input, .modal select {
+            width: 100%; padding: 10px; margin: 10px 0;
+            background: #000; border: 1px solid #444; color: white;
+        }
 
-  #tree-wrapper {
-    transform-origin: 0 0;
-    padding: 1000px; /* مساحة ضخمة جداً للنمو */
-  }
-
-  .node-box { fill: var(--bg-card); stroke: var(--gold); stroke-width: 1.5; cursor: pointer; }
-  .node-text { fill: var(--text); font-size: 14px; font-weight: 700; text-anchor: middle; pointer-events: none; }
-  .link { fill: none; stroke: var(--gold-dark); stroke-width: 2; opacity: 0.5; }
-
-  /* النوافذ المنبثقة (Modals) */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-    display: none; align-items: center; justify-content: center;
-    z-index: 2000; pointer-events: auto; backdrop-filter: blur(5px);
-  }
-  .modal-overlay.active { display: flex; }
-  .modal {
-    background: var(--bg-card); border: 2px solid var(--gold); padding: 30px;
-    border-radius: 15px; width: 400px; max-width: 90%;
-  }
-  .modal input, .modal select {
-    width: 100%; padding: 12px; margin: 10px 0;
-    background: #000; border: 1px solid var(--border); color: #fff; border-radius: 8px;
-  }
-
-  /* الطباعة */
-  @media print {
-    body { overflow: visible; height: auto; background: #fff !important; }
-    .overlay-ui, .modal-overlay { display: none !important; }
-    .viewport { cursor: default; background: none; }
-    #tree-wrapper { transform: scale(1) !important; padding: 20px !important; }
-    #tree-svg { width: 100% !important; height: auto !important; }
-    .node-box { fill: #f0f0f0 !important; stroke: #000 !important; }
-    .node-text { fill: #000 !important; }
-    .link { stroke: #000 !important; }
-  }
-</style>
+        /* إعدادات الطباعة النهائية */
+        @media print {
+            @page { size: landscape; margin: 10mm; }
+            body { background: white !important; color: black !important; }
+            .toolbar, .modal-bg { display: none !important; }
+            .tree-viewport { overflow: visible !important; padding: 0 !important; }
+            #tree-svg { width: 100% !important; height: auto !important; max-height: 100% !important; }
+            .node-rect { fill: #f9f9f9 !important; stroke: black !important; }
+            .node-text { fill: black !important; }
+            .link { stroke: black !important; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="overlay-ui">
-  <div class="ui-top">
-    <h1>شجرة العائلة</h1>
-    <div id="stats" style="color: var(--gold-dark); font-size: 0.9rem;"></div>
-  </div>
-  
-  <div class="ui-bottom">
-    <button class="btn primary" onclick="openAddModal()">＋ إضافة فرد</button>
-    <button class="btn" onclick="zoom(1.2)">➕ تكبير</button>
-    <button class="btn" onclick="zoom(0.8)">➖ تصغير</button>
-    <button class="btn" onclick="window.print()">🖨 طباعة</button>
-    <button class="btn" onclick="exportData()">⬇ تصدير (حفظ)</button>
-    <button class="btn" onclick="document.getElementById('fileInput').click()">⬆ استيراد</button>
-  </div>
+<div class="toolbar">
+    <button class="btn btn-primary" onclick="openAddModal()">＋ إضافة فرد</button>
+    <button class="btn" onclick="exportJSON()">⬇ تصدير</button>
+    <button class="btn" onclick="document.getElementById('importInput').click()">⬆ استيراد</button>
+    <button class="btn" onclick="window.print()">🖨 طباعة الشجرة</button>
 </div>
 
-<div class="viewport" id="viewport">
-  <div id="tree-wrapper">
+<div class="tree-viewport">
     <svg id="tree-svg"></svg>
-  </div>
 </div>
 
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <h2 id="m-title" style="margin-bottom:10px;">إضافة فرد</h2>
-    <input type="text" id="m-name" placeholder="الاسم الكامل">
-    <select id="m-parent"></select>
-    <div style="display:flex; gap:10px; margin-top:10px;">
-      <button class="btn primary" style="flex:2" onclick="saveData()">حفظ</button>
-      <button class="btn" style="flex:1" onclick="closeModal()">إلغاء</button>
-      <button class="btn" id="m-del" style="background:#600; display:none;" onclick="deleteData()">حذف</button>
+<div class="modal-bg" id="modal">
+    <div class="modal">
+        <h3 id="modal-title">إضافة فرد</h3>
+        <input type="text" id="node-name" placeholder="الاسم الكامل">
+        <select id="node-parent"></select>
+        <div style="display:flex; gap:10px; margin-top:15px;">
+            <button class="btn btn-primary" style="flex:1" onclick="saveNode()">حفظ</button>
+            <button class="btn" style="flex:1" onclick="closeModal()">إلغاء</button>
+        </div>
     </div>
-  </div>
 </div>
 
-<input type="file" id="fileInput" style="display:none" onchange="importData(event)">
+<input type="file" id="importInput" style="display:none" onchange="importJSON(event)">
 
 <script>
-const NODE_W = 160, NODE_H = 50, V_GAP = 80, H_GAP = 40;
-let people = JSON.parse(localStorage.getItem('family_final') || '[]');
-let currentEditId = null;
-let scale = 1, posX = 0, posY = 0;
+    let people = JSON.parse(localStorage.getItem('family_tree_data') || '[]');
+    const W = 150, H = 45, V_GAP = 70, H_GAP = 30;
 
-// --- التحريك والسحب ---
-const viewport = document.getElementById('viewport');
-const wrapper = document.getElementById('tree-wrapper');
-let dragging = false, lastX, lastY;
+    function render() {
+        const svg = document.getElementById('tree-svg');
+        if (!people.length) { svg.innerHTML = ''; return; }
 
-viewport.onmousedown = (e) => {
-  if (e.target.tagName !== 'DIV' && e.target.tagName !== 'svg') return;
-  dragging = true; lastX = e.clientX; lastY = e.clientY;
-};
-window.onmousemove = (e) => {
-  if (!dragging) return;
-  posX += (e.clientX - lastX); posY += (e.clientY - lastY);
-  lastX = e.clientX; lastY = e.clientY;
-  updatePos();
-};
-window.onmouseup = () => dragging = false;
+        // حساب المسافات
+        const getKids = (pid) => people.filter(p => p.parentId === pid);
+        const calcW = (id) => {
+            const kids = getKids(id);
+            return kids.length === 0 ? W + H_GAP : kids.reduce((acc, k) => acc + calcW(k.id), 0);
+        };
 
-function zoom(s) { scale *= s; updatePos(); }
-function updatePos() { wrapper.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`; }
+        const roots = people.filter(p => !p.parentId);
+        let startX = 0;
+        
+        // توزيع المواقع
+        const layout = (id, x, y) => {
+            const p = people.find(n => n.id === id);
+            const w = calcW(id);
+            p.x = x + w/2 - W/2;
+            p.y = y;
+            let currentX = x;
+            getKids(id).forEach(k => {
+                layout(k.id, currentX, y + H + V_GAP);
+                currentX += calcW(k.id);
+            });
+        };
 
-// --- المنطق البرمجي ---
-const getKids = (id) => people.filter(p => p.parentId === id);
-const byId = (id) => people.find(p => p.id === id);
+        roots.forEach(r => { layout(r.id, startX, 20); startX += calcW(r.id) + 50; });
 
-function calcWidth(id) {
-  const kids = getKids(id);
-  return kids.length === 0 ? NODE_W + H_GAP : kids.reduce((s, k) => s + calcWidth(k.id), 0);
-}
+        // الرسم
+        svg.setAttribute('width', startX);
+        svg.setAttribute('height', Math.max(...people.map(p => p.y)) + 100);
 
-function assignPos(id, x, y) {
-  const node = byId(id);
-  const w = calcWidth(id);
-  node._x = x + w/2 - NODE_W/2;
-  node._y = y;
-  let curX = x;
-  getKids(id).forEach(k => { assignPos(k.id, curX, y + NODE_H + V_GAP); curX += calcWidth(k.id); });
-}
-
-function render() {
-  const svg = document.getElementById('tree-svg');
-  if (!people.length) {
-    document.getElementById('stats').textContent = 'الشجرة فارغة';
-    svg.innerHTML = ''; return;
-  }
-
-  const roots = people.filter(p => !p.parentId);
-  let totalX = 0;
-  roots.forEach(r => { assignPos(r.id, totalX, 50); totalX += calcWidth(r.id) + 100; });
-
-  svg.setAttribute('width', totalX + 500);
-  svg.setAttribute('height', 2000);
-
-  let html = '';
-  people.forEach(p => {
-    if (p.parentId) {
-      const par = byId(p.parentId);
-      html += `<path class="link" d="M${par._x + NODE_W/2},${par._y + NODE_H} V${par._y + NODE_H + V_GAP/2} H${p._x + NODE_W/2} V${p._y}" />`;
+        let linksHtml = '', nodesHtml = '';
+        people.forEach(p => {
+            if (p.parentId) {
+                const parent = people.find(n => n.id === p.parentId);
+                linksHtml += `<path class="link" d="M${parent.x + W/2},${parent.y + H} V${parent.y + H + V_GAP/2} H${p.x + W/2} V${p.y}" />`;
+            }
+            nodesHtml += `
+                <g onclick="openEditModal('${p.id}')">
+                    <rect class="node-rect" x="${p.x}" y="${p.y}" width="${W}" height="${H}" rx="5" />
+                    <text class="node-text" x="${p.x + W/2}" y="${p.y + H/2 + 5}">${p.name}</text>
+                </g>`;
+        });
+        svg.innerHTML = linksHtml + nodesHtml;
+        localStorage.setItem('family_tree_data', JSON.stringify(people));
     }
-    html += `
-      <g onclick="openEditModal('${p.id}')">
-        <rect class="node-box" x="${p._x}" y="${p._y}" width="${NODE_W}" height="${NODE_H}" rx="8" />
-        <text class="node-text" x="${p._x + NODE_W/2}" y="${p._y + NODE_H/2 + 5}">${p.name}</text>
-      </g>`;
-  });
-  svg.innerHTML = html;
-  document.getElementById('stats').textContent = `عدد الأفراد: ${people.length}`;
-  localStorage.setItem('family_final', JSON.stringify(people));
-}
 
-// --- النوافذ والعمليات ---
-function openAddModal() {
-  currentEditId = null;
-  document.getElementById('m-title').textContent = "إضافة فرد جديد";
-  document.getElementById('m-name').value = "";
-  document.getElementById('m-del').style.display = "none";
-  fillSelect();
-  document.getElementById('modal').classList.add('active');
-}
+    // إدارة البيانات
+    let editId = null;
+    function openAddModal() {
+        editId = null;
+        document.getElementById('modal-title').innerText = "إضافة فرد جديد";
+        document.getElementById('node-name').value = '';
+        updateSelect();
+        document.getElementById('modal').style.display = 'flex';
+    }
 
-function openEditModal(id) {
-  currentEditId = id;
-  const p = byId(id);
-  document.getElementById('m-title').textContent = "تعديل / إضافة ابن لـ " + p.name;
-  document.getElementById('m-name').value = p.name;
-  document.getElementById('m-del').style.display = "block";
-  fillSelect(id);
-  document.getElementById('m-parent').value = p.parentId || "";
-  document.getElementById('modal').classList.add('active');
-}
+    function openEditModal(id) {
+        editId = id;
+        const p = people.find(n => n.id === id);
+        document.getElementById('modal-title').innerText = "تعديل: " + p.name;
+        document.getElementById('node-name').value = p.name;
+        updateSelect(id);
+        document.getElementById('node-parent').value = p.parentId || '';
+        document.getElementById('modal').style.display = 'flex';
+    }
 
-function fillSelect(exId = null) {
-  const s = document.getElementById('m-parent');
-  s.innerHTML = '<option value="">— بلا أب (أصل) —</option>';
-  people.filter(p => p.id !== exId).forEach(p => s.innerHTML += `<option value="${p.id}">${p.name}</option>`);
-}
+    function updateSelect(excludeId = null) {
+        const sel = document.getElementById('node-parent');
+        sel.innerHTML = '<option value="">— بلا أب (جذر) —</option>';
+        people.forEach(p => {
+            if (p.id !== excludeId) sel.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+        });
+    }
 
-function saveData() {
-  const name = document.getElementById('m-name').value.trim();
-  const parentId = document.getElementById('m-parent').value || null;
-  if (!name) return alert("يرجى كتابة الاسم");
+    function saveNode() {
+        const name = document.getElementById('node-name').value;
+        const parentId = document.getElementById('node-parent').value;
+        if (!name) return;
 
-  if (currentEditId) {
-    const p = byId(currentEditId);
-    p.name = name; p.parentId = parentId;
-  } else {
-    people.push({ id: 'p' + Date.now(), name, parentId });
-  }
-  closeModal(); render();
-}
+        if (editId) {
+            const p = people.find(n => n.id === editId);
+            p.name = name; p.parentId = parentId || null;
+        } else {
+            people.push({ id: 'p' + Date.now(), name, parentId: parentId || null });
+        }
+        closeModal(); render();
+    }
 
-function deleteData() {
-  if (confirm("هل تريد حذف هذا الشخص وكافة أبنائه؟")) {
-    const toDel = new Set();
-    const find = (id) => { toDel.add(id); getKids(id).forEach(k => find(k.id)); };
-    find(currentEditId);
-    people = people.filter(p => !toDel.has(p.id));
-    closeModal(); render();
-  }
-}
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-function closeModal() { document.getElementById('modal').classList.remove('active'); }
+    // التصدير والاستيراد
+    function exportJSON() {
+        const data = JSON.stringify(people);
+        const blob = new Blob([data], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'family_tree.json'; a.click();
+    }
 
-// --- الاستيراد والتصدير ---
-function exportData() {
-  const data = JSON.stringify(people, null, 2);
-  const blob = new Blob([data], {type: 'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'family_tree.json';
-  a.click();
-}
+    function importJSON(e) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            people = JSON.parse(ev.target.result);
+            render();
+        };
+        reader.readAsText(e.target.files[0]);
+    }
 
-function importData(e) {
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    try {
-      const d = JSON.parse(ev.target.result);
-      if (Array.isArray(d)) { people = d; render(); alert("تم الاستيراد بنجاح"); }
-    } catch(err) { alert("ملف غير صالح"); }
-  };
-  reader.readAsText(e.target.files[0]);
-}
-
-render();
+    render();
 </script>
 
 </body>
